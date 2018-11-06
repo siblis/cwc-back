@@ -2,10 +2,14 @@
 
 one:
   title: MyString
-  body: MyString
-  deadline: 2018-11-05 18:39:26
+  body: MyText
+  deadline: 2018-11-06 18:46:51
+  completed: false
+  started: 2018-11-06 18:46:51
 
 two:
   title: MyString
-  body: MyString
-  deadline: 2018-11-05 18:39:26
+  body: MyText
+  deadline: 2018-11-06 18:46:51
+  completed: false
+  started: 2018-11-06 18:46:51
