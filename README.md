@@ -1,7 +1,7 @@
 # cwc-back
 # README
 
-Ruby 2.3.3
+Ruby 2.5.3
 Rails 5.2.1
 Postgresql 9.6.2 x64
 Windows 10
