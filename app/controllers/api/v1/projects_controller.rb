@@ -1,6 +1,6 @@
 module Api::V1
   class ProjectsController < ApplicationController
-    before_action :find_project, only: [:show, :update, :destory]
+    before_action :find_project, only: [:destroy, :show, :update]
 
     def index
       @projects = Project.all
@@ -17,15 +17,14 @@ module Api::V1
     end
     
     def show
-      @project = Project.find(params[:id])
       render json: @project
     end
 
     def update
       if @project.update_attributes(project_params)
-          render json: @project, status: :ok
+        render json: @project, status: :ok
       else
-          render json: {errors: @project.errors}, status: :unprocessable_entity
+        render json: {errors: @project.errors}, status: :unprocessable_entity
       end
     end 
 
@@ -35,12 +34,13 @@ module Api::V1
     end
 
   private  
+    def find_project
+      @project = Project.find(params[:id])
+    end
+
     def project_params
       params.require(:project).permit(:title, :body, :deadline, :completed, :started)
     end
 
-    def find_project
-      @project = Project.find(params[:id])
-    end
   end
 end
