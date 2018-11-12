@@ -3,14 +3,14 @@ module Api::V1
     before_action :find_project, only: [:destroy, :show, :update]
 
     def index
-      @projects = Project.all
+      @projects = Project.order("id")
       paginate json: @projects
     end
 
     def create
       @project = Project.new(project_params)
       if @project.save
-        render status: :created
+        render json: @project, status: :created
       else
         render json: @project.errors, status: :unprocessable_entity
       end
