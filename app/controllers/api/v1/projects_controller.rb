@@ -29,8 +29,9 @@ module Api::V1
     end 
 
     def destroy
+      id = @project.id
       @project.destroy
-      render status: 204
+      render json: @project, status: :ok
     end
 
   private  
