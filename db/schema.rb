@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_06_154651) do
+ActiveRecord::Schema.define(version: 2018_11_12_171457) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,17 @@ ActiveRecord::Schema.define(version: 2018_11_06_154651) do
     t.datetime "deadline"
     t.boolean "completed"
     t.datetime "started"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tasks", comment: "Задачи", force: :cascade do |t|
+    t.string "title", comment: "Заголовок"
+    t.text "body", comment: "Описание"
+    t.datetime "deadline", comment: "Планируемое окончание"
+    t.boolean "completed", comment: "Выполнено"
+    t.datetime "started", comment: "Начато"
+    t.integer "project_id", comment: "ID проекта"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
