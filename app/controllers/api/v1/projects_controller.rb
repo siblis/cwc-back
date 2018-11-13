@@ -1,9 +1,9 @@
 module Api::V1
   class ProjectsController < ApplicationController
-    before_action :find_project, only: [:destroy, :show, :update]
+    before_action :find_project, only: %i[destroy show update]
 
     def index
-      @projects = Project.order("id")
+      @projects = Project.order(:id)
       paginate json: @projects
     end
 
