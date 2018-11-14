@@ -29,7 +29,6 @@ module Api::V1
     end 
 
     def destroy
-      id = @project.id
       @project.destroy
       render json: @project, status: :ok
     end
@@ -40,7 +39,7 @@ module Api::V1
     end
 
     def project_params
-      params.require(:project).permit(:title, :body, :deadline, :completed, :started)
+      params.permit(:title, :body, :deadline, :completed, :started)
     end
 
   end
