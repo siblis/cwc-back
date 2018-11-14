@@ -7,11 +7,20 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 8.times do
-  Project.create({
+  project = Project.create(
     title: Faker::Hacker.say_something_smart,
     body: Faker::Lorem.paragraph,
     completed: false,
     deadline: Faker::Date.forward(rand(60)+20),
     started: Faker::Date.backward(rand(30))
-  })
+  )
+  8.times do
+    project.tasks.create(
+      title: Faker::Hacker.say_something_smart,
+      body: Faker::Lorem.paragraph,
+      completed: false,
+      deadline: Faker::Date.forward(rand(60)+20),
+      started: Faker::Date.backward(rand(30))
+    )
+  end
 end
