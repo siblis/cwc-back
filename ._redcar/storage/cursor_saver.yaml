@@ -1,0 +1,6 @@
+--- 
+cursor_positions: 
+  - :path: db/seeds.rb
+    :cursor_offset: 857
+    :timestamp: 2018-11-14 18:55:43.832000 +03:00
+files_to_retain: 0

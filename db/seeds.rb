@@ -15,12 +15,17 @@
     started: Faker::Date.backward(rand(30))
   )
   8.times do
-    project.tasks.create(
+    task = project.tasks.create(
       title: Faker::Hacker.say_something_smart,
       body: Faker::Lorem.paragraph,
       completed: false,
       deadline: Faker::Date.forward(rand(60)+20),
       started: Faker::Date.backward(rand(30))
     )
+    4.times do
+      task.comments.create(
+        body: Faker::Lorem.paragraph
+      )
+    end
   end
 end
