@@ -34,7 +34,11 @@ module Api::V1
 
     # DELETE /users/1
     def destroy
-      @user.destroy
+      if @user.update(deleted: true)
+        render json: @user
+      else
+        render json: @user.errors, status: :unprocessable_entity
+      end
     end
 
     private
@@ -45,7 +49,7 @@ module Api::V1
 
       # Only allow a trusted parameter "white list" through.
       def user_params
-        params.require(:user).permit(:login, :pasword, :auth_token)
+        params.require(:user).permit(:login, :email, :pasword, :deleted )
       end
   end  
 end

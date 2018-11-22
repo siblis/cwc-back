@@ -5,7 +5,6 @@ CommentsController = Api::V1::CommentsController
 class CommentsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @comment = comments(:one)
-    @comment.task_id = 1
   end
 
   test "should get index" do
