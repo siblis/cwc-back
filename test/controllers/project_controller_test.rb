@@ -1,3 +1,4 @@
+require 'uri'
 require 'test_helper'
 require_relative '../../app/controllers/api/v1/projects_controller'
 ProjectsController = Api::V1::ProjectsController
@@ -10,10 +11,7 @@ class ProjectssControllerTest < ActionDispatch::IntegrationTest
 
   def  projects_url project = nil
     url = 'http://www.example.com/api/v1/projects'
-    if project
-      url += '/' + project.id.to_s
-    end
-    return url
+    url += '/' + project.id.to_s if project
   end
 
   test "should get index" do

@@ -47,7 +47,7 @@ module Api::V1
 
       # Only allow a trusted parameter "white list" through.
       def comment_params
-        params.permit(:body, :task_id)
+        params.permit(:body, :task_id, :user_id)
       end
   end
 end
