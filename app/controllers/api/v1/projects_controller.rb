@@ -39,7 +39,7 @@ module Api::V1
     end
 
     def project_params
-      params.permit(:title, :body, :deadline, :completed, :started)
+      params.permit(:title, :body, :deadline, :completed, :started, :user_id)
     end
 
   end

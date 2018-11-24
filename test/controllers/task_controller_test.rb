@@ -8,10 +8,7 @@ class TaskControllerTest < ActionDispatch::IntegrationTest
 
   def tasks_url task = nil
     url = 'http://www.example.com/api/v1/tasks/'
-    if task
-       url +=  task.id.to_s+'/'
-    end
-    return url
+    url +=  task.id.to_s+'/' if task
   end
 
   test "should get index" do
