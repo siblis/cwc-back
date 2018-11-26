@@ -40,7 +40,7 @@ module Api::V1
     end
 
     def task_params
-      params.permit(:title, :body, :deadline, :completed, :started, :project_id, :user_id)
+      params.permit(:title, :body, :deadline, :completed, :started, :project_id, :user_id, :doer_id)
     end
   end
 end

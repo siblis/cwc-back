@@ -3,7 +3,7 @@ module Api::V1
     before_action :find_project, only: %i[destroy show update]
 
     def index
-      @projects = Project.order(:id)
+      @projects = Project.where(project_params).order(:id)
       paginate json: @projects
     end
 

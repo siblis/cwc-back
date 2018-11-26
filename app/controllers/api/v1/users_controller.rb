@@ -4,7 +4,7 @@ module Api::V1
 
     # GET /users
     def index
-      @users = User.all
+      @users = User.order(:id)
       render json: @users
     end
 
@@ -17,7 +17,7 @@ module Api::V1
     def create
       @user = User.new(user_params)
       if @user.save
-        render json: @user, status: :created, location: @user
+        render json: @user, status: :created
       else
         render json: @user.errors, status: :unprocessable_entity
       end
@@ -49,7 +49,8 @@ module Api::V1
 
       # Only allow a trusted parameter "white list" through.
       def user_params
-        params.require(:user).permit(:login, :email, :pasword, :deleted )
+        # params.require(:user).permit(:login, :email, :pasword, :deleted )
+        params.permit(:login, :email, :password, :deleted )
       end
   end  
 end
