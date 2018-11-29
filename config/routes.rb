@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :command_items
+  
   get :token, controller: 'application'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :api do
@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :tasks
       resources :comments
       resources :users
+      resources :command_items
     end
   end
 end

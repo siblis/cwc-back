@@ -1,6 +1,6 @@
 module Api::V1
   class CommandItemsController < ApplicationController
-    before_action :set_command_item, only: %i[show, update, destroy]
+    before_action :set_command_item, only: %i[update, destroy, show]
 
     # GET /command_items
     def index
@@ -15,12 +15,17 @@ module Api::V1
 
     # POST /command_items
     def create
-      @command_item = CommandItem.new(command_item_params)
-
-      if @command_item.save
-        render json: @command_item, status: :created, location: @command_item
+      @command_item = CommandItem.where(command_item_params).first
+      if @command_item
+        render json: @command_item, status: :created
       else
-        render json: @command_item.errors, status: :unprocessable_entity
+        @command_item ||= CommandItem.new(command_item_params) 
+
+        if @command_item.save
+          render json: @command_item, status: :created
+        else
+          render json: @command_item.errors, status: :unprocessable_entity
+        end
       end
     end
 
@@ -36,13 +41,14 @@ module Api::V1
     # DELETE /command_items/1
     def destroy
       @command_item.destroy
-      render json: @project, status: :ok
+      render json: @command_item, status: :ok
     end
 
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_command_item
         @command_item = CommandItem.find(params[:id])
+        puts '!!!!!!!!!!!!!!!!!!!'
       end
 
       # Only allow a trusted parameter "white list" through.
