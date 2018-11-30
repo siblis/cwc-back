@@ -9,6 +9,7 @@ module Api::V1
 
     def create
       @task = Task.new(task_params)
+      @task.doer_id ||= @task.user_id
       if @task.save
         render json: @task, status: :created
       else
