@@ -21,16 +21,24 @@ module Api::V1
     end
 
     def update
-      if @task.update_attributes(task_params)
-        render json: @task, status: :ok
+      if params[:user_id].to_i == @task.user_id
+        if @task.update_attributes(task_params)
+          render json: @task, status: :ok
+        else
+          render json: {errors: @task.errors}, status: :unprocessable_entity
+        end
       else
-        render json: {errors: @task.errors}, status: :unprocessable_entity
-      end
+        render json: {error: 'Incorrect user_id'}, status: :unauthorized
+      end  
     end 
 
     def destroy
-      @task.destroy
-      render json: @task, status: :ok
+      if params[:user_id].to_i == @task.user_id
+        @task.destroy
+        render json: @task, status: :ok
+      else
+        render json: {error: 'Incorrect user_id'}, status: :unauthorized
+      end  
     end
 
 

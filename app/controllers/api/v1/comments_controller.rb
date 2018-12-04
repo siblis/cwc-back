@@ -26,17 +26,25 @@ module Api::V1
 
     # PATCH/PUT /comments/1
     def update
-      if @comment.update(comment_params)
-        render json: @comment
+      if params[:user_id].to_i == @comment.user_id
+        if @comment.update(comment_params)
+          render json: @comment
+        else
+          render json: @comment.errors, status: :unprocessable_entity
+        end
       else
-        render json: @comment.errors, status: :unprocessable_entity
+        render json: {error: 'Incorrect user_id'}, status: :unauthorized
       end
     end
 
     # DELETE /comments/1
     def destroy
-      @comment.destroy
-      render json: @comment, status: :ok
+      if params[:user_id].to_i == @comment.user_id
+        @comment.destroy
+        render json: @comment, status: :ok
+      else
+        render json: {error: 'Incorrect user_id'}, status: :unauthorized
+      end  
     end
 
     private
