@@ -3,12 +3,13 @@ module Api::V1
     before_action :find_task, only: %i[destroy show update]
 
     def index
-      @tasks = Task.where(task_params).order(:id)
+      @tasks = Task.where(task_params).order(:npos)
       paginate json: @tasks
     end
 
     def create
       @task = Task.new(task_params)
+      @task.npos = get_npos
       if @task.save
         render json: @task, status: :created
       else
@@ -41,6 +42,16 @@ module Api::V1
       end  
     end
 
+    def setnpos
+      Task.find_each do |task|
+        logger.debug task.npos.to_s
+        task.npos = task.id
+        task.save
+      end
+      @tasks = Task.where(task_params).order(:npos)
+      paginate json: @tasks
+    end
+
 
   private  
     def find_task
@@ -48,7 +59,13 @@ module Api::V1
     end
 
     def task_params
-      params.permit(:title, :body, :deadline, :completed, :started, :project_id, :user_id, :doer_id)
+      params.permit(:title, :body, :deadline, :completed, :started, :project_id, :user_id, :doer_id, :nposb, :npose)
+    end
+
+    def get_npos
+      npos = Task.maximum('npos')
+      npos = 0 unless npos
+      npos += 1  
     end
   end
 end
