@@ -43,15 +43,42 @@ module Api::V1
     end
 
     def setnpos
-      Task.find_each do |task|
-        logger.debug task.npos.to_s
-        task.npos = task.id
-        task.save
+      Task.transaction do
+        Task.find_each do |task|
+          task.npos = task.id
+          task.save
+        end
       end
       @tasks = Task.where(task_params).order(:npos)
       paginate json: @tasks
     end
 
+    def change_npos
+      nb = params[:nposb].to_i
+      ne = params[:npose].to_i
+      if nb == ne
+        render json: {error: 'Incorrect params'}, status: :unprocessable_entity
+      else
+        task = Task.where('npos = ' + nb.to_s).first
+        Task.transaction do
+          if nb < ne
+            Task.where('npos > ' + nb.to_s + ' and npos <= ' + ne.to_s).find_each do |t|
+              t.npos -= 1
+              t.save
+            end  
+          else
+            Task.where('npos < ' + nb.to_s + ' and npos >= ' + ne.to_s).find_each do |t|
+              t.npos += 1
+              t.save
+            end  
+          end  
+          task.npos = ne
+          task.save
+        end
+        render json: task, status: :ok
+      end
+    end
+    
 
   private  
     def find_task
