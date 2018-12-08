@@ -75,7 +75,7 @@ module Api::V1
           task.npos = ne
           task.save
         end
-        render json: task, status: :ok
+        render status: :ok
       end
     end
     
