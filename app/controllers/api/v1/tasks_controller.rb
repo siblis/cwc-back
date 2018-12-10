@@ -62,23 +62,15 @@ module Api::V1
         task = Task.where('npos = ' + nb.to_s).first
         Task.transaction do
           if nb < ne
-            Task.where('npos > ' + nb.to_s + ' and npos <= ' + ne.to_s).find_each do |t|
-              t.npos -= 1
-              t.save
-            end  
+            Task.where(npos: nb..ne).update_all("npos = npos - 1")
           else
-            Task.where('npos < ' + nb.to_s + ' and npos >= ' + ne.to_s).find_each do |t|
-              t.npos += 1
-              t.save
-            end  
+            Task.where(npos: ne..nb).update_all("npos = npos + 1")
           end  
-          task.npos = ne
-          task.save
+          task.update_attributes(npos: ne)
         end
         render status: :ok
       end
     end
-    
 
   private  
     def find_task
