@@ -3,6 +3,6 @@ class TestJob < ApplicationJob
 
   def perform(*args)
     # Do something later
-    @tasks = Task.where('id=1')
+    @tasks = Task.where(id: 1)
   end
 end

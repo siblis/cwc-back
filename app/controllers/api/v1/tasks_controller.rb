@@ -44,10 +44,7 @@ module Api::V1
 
     def setnpos
       Task.transaction do
-        Task.find_each do |task|
-          task.npos = task.id
-          task.save
-        end
+        Task.update_all("npos = id")
       end
       @tasks = Task.where(task_params).order(:npos)
       paginate json: @tasks
@@ -59,13 +56,9 @@ module Api::V1
       if nb == ne
         render json: {error: 'Incorrect params'}, status: :unprocessable_entity
       else
-        task = Task.where('npos = ' + nb.to_s).first
+        task = Task.where(npos: nb).first
         Task.transaction do
-          if nb < ne
-            Task.where(npos: nb..ne).update_all("npos = npos - 1")
-          else
-            Task.where(npos: ne..nb).update_all("npos = npos + 1")
-          end  
+          Task.where(npos: nb..ne).update_all(nb < ne ? "npos = npos - 1" : "npos = npos + 1")
           task.update_attributes(npos: ne)
         end
         render status: :ok
@@ -83,7 +76,7 @@ module Api::V1
 
     def get_npos
       npos = Task.maximum('npos')
-      npos = 0 unless npos
+      npos ||= 0
       npos += 1  
     end
   end
