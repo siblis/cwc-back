@@ -48,7 +48,7 @@ Rails.application.configure do
     port:                 587,
     domain:               'cwc.com',
     user_name:            'cwc.back',
-    password:             '!QAZxsw2',
+    password:              <%= ENV["SMTP_PASSWORD"] %>,
     authentication:       'plain',
     enable_starttls_auto: true  }
 
