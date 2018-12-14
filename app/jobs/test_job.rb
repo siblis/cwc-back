@@ -3,7 +3,7 @@ class TestJob < ApplicationJob
 
   def perform(*args)
     Task.find_each(deadline: Time.now.midnight..(Time.now.midnight + 5.day)) do |task|
-      #  Here will be sending messages
+      TaskMailer.warnin_email(task).deliver_later
     end
   end
 end
